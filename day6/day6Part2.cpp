@@ -7,9 +7,10 @@ using namespace std;
 int main (void)
 {
     string rawInput;
-    vector<short int> fishCount = {};
-    vector<short int> nextFishCount;
-    short int dayCount = 0;
+    long int fishCount[9] = {};
+    long int nextFishCount[9] = {};
+    int dayCount = 0;
+    long int finalFishCount = 0;
     ifstream readFile ("data/input.txt", ios::in);
 
     //Read file into arrays
@@ -20,28 +21,28 @@ int main (void)
             switch(rawInput[i])
             {
                 case '1':
-                    fishCount.push_back(1);
+                    fishCount[1]++;
                     break;
                 case '2':
-                    fishCount.push_back(2);
+                    fishCount[2]++;
                     break;
                 case '3':
-                    fishCount.push_back(3);
+                    fishCount[3]++;
                     break;
                 case '4':
-                    fishCount.push_back(4);
+                    fishCount[4]++;
                     break;
                 case '5':
-                    fishCount.push_back(5);
+                    fishCount[5]++;
                     break;
                 case '6':
-                    fishCount.push_back(6);
+                    fishCount[6]++;
                     break;
                 case '7':
-                    fishCount.push_back(7);
+                    fishCount[7]++;
                     break;
                 case '8':
-                    fishCount.push_back(8);
+                    fishCount[8]++;
                     break;
                 default:
                     continue;
@@ -49,21 +50,33 @@ int main (void)
         }
     }
 
-    nextFishCount = fishCount;
+    cout << "Initial Size: ";
+    for(int i=0;i<9;i++)
+    {
+        cout << fishCount[i] << ",";
+    }
+
     for(dayCount;dayCount<256;dayCount++)
     {
-        for(int i=0;i<fishCount.size();i++)
+        //cout << "New Day! Processing day " << dayCount << "..." << endl;
+        for(int i=0;i<8;i++)
         {
-            if(fishCount[i] == 0)
-            {
-                nextFishCount[i] = 6;
-                nextFishCount.push_back(8);
-            }
-            else nextFishCount[i]--;
+            nextFishCount[i] = fishCount[i+1];
         }
-        cout << "New Day! Processing day " << dayCount << "..." << endl;
-        fishCount = nextFishCount;
+        nextFishCount[8]  = fishCount[0];
+        nextFishCount[6] += fishCount[0];
+        for(int i=0;i<9;i++)
+        {
+            fishCount[i] = nextFishCount[i];
+        }
     }
-    cout << "Fish Count: " << fishCount.size() << endl;
+
+    cout << endl << "End Size: ";
+    for(int i=0;i<9;i++)
+    {
+        cout << fishCount[i] << ",";
+        finalFishCount += fishCount[i];
+    }
+    cout << "Fish Count: " <<  finalFishCount << endl;
     return 0;
 }
