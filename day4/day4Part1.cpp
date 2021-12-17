@@ -117,7 +117,6 @@ int main (void)
             if(turnCount < lowestTurnCount)
             {
                 lowestTurnCount = turnCount;
-                cout << turnCount << endl;
                 bestBoard = boardValues;
                 bestMarkedNumbers = markedNumbers;
             }
@@ -126,7 +125,6 @@ int main (void)
             else
             {
                 markedNumbers.clear();
-                cout << "Too high" << endl;
             }
             for(int i = 0; i < 5; i++)
             {
